@@ -1,4 +1,4 @@
 package org.example;
 
-public abstract class Apple extends Phone{
+public abstract class Apple extends Phone {
 }

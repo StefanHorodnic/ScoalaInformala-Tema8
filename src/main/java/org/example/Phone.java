@@ -3,11 +3,10 @@ package org.example;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 public abstract class Phone {
 
-    private int imei;
+    private String imei;
     private List<Contact> contacts = new ArrayList<>();
     private List<TextMessage> sentMessages = new ArrayList<>();
     private List<PhoneCall> phoneCalls = new ArrayList<>();
@@ -23,17 +22,14 @@ public abstract class Phone {
         this.material = material;
     }
 
-    public int getImei() {
-        return imei;
-    }
+    public abstract String getImei();
 
     public int getBatteryLife() {
         return batteryLife;
     }
 
     public Phone() {
-        Random random = new Random();
-        imei = random.nextInt(10000000);
+        imei = LocalDateTime.now().toString();
     }
 
     public void addContact(String id, String phoneNumber, String firstName, String lastName) {
@@ -48,6 +44,7 @@ public abstract class Phone {
 
     public void sendTextMessage(String phoneNumber, String messageContent) {
         if (messageContent.length() < 500) {
+            System.out.println("Am trimis mesajul: "+ messageContent +" la numărul :" + phoneNumber);
             sentMessages.add(new TextMessage(phoneNumber, messageContent));
             batteryLife = batteryLife - 1;
         } else {
@@ -65,6 +62,7 @@ public abstract class Phone {
     }
 
     public void call(String phoneNumber) {
+        System.out.println("Am apelat numărul: "+phoneNumber);
         phoneCalls.add(new PhoneCall(LocalDateTime.now(), phoneNumber));
         batteryLife = batteryLife - 2;
     }
@@ -81,6 +79,7 @@ public abstract class Phone {
         return "Phone{" +
                 "color='" + color + '\'' +
                 ", material='" + material + '\'' +
+                ", imei='" + getImei() + "'" +
                 '}';
     }
 }
